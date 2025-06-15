@@ -11,7 +11,7 @@ export default function Meals()
 
         async function getMealsData()
         {
-            const res = await fetch('http://localhost:3000/mealssss');
+            const res = await fetch('http://localhost:3000/meals');
             const data = await res.json();
 
             if(!res.ok)
