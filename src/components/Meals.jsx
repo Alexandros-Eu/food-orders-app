@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 
 export default function Meals()
 {
+    const [isLoading, setLoading] = useState(true);
     const [meals, setMeals] = useState([]);
 
     useEffect(() => {
@@ -16,17 +17,18 @@ export default function Meals()
             {
                 throw new Error("Couldn't load data!");
             }
+
             setMeals(data);
+            setLoading(false);
         }
 
         getMealsData();
     }, [])
 
-    console.log(meals);
-
     return (
         <ol id="meals">
-            {meals.map((meal) => {
+            {isLoading && <p>Please wait while we are fetching the data...</p>}
+            {!isLoading && meals.map((meal) => {
                 return <Meal key={meal.id} name={meal.name} price={meal.price} description={meal.description} image={meal.image}/>
             })}
         </ol>
