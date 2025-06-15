@@ -5,17 +5,19 @@ export default function Meals()
 {
     const [isLoading, setLoading] = useState(true);
     const [meals, setMeals] = useState([]);
+    const [errors, setErrors] = useState("");
 
     useEffect(() => {
 
         async function getMealsData()
         {
-            const res = await fetch('http://localhost:3000/meals');
+            const res = await fetch('http://localhost:3000/mealssss');
             const data = await res.json();
 
             if(!res.ok)
             {
-                throw new Error("Couldn't load data!");
+                setErrors("Something went wrong while trying to fetch the meals data...");
+                setLoading(false);
             }
 
             setMeals(data);
@@ -28,9 +30,15 @@ export default function Meals()
     return (
         <ol id="meals">
             {isLoading && <p>Please wait while we are fetching the data...</p>}
-            {!isLoading && meals.map((meal) => {
+            {(!isLoading && !errors) && meals.map((meal) => {
                 return <Meal key={meal.id} name={meal.name} price={meal.price} description={meal.description} image={meal.image}/>
             })}
+            {errors && (
+                <div className="error">
+                    <h2>Error!</h2>
+                    <p>{errors}</p>
+                </div>
+            )}
         </ol>
     )
 }
