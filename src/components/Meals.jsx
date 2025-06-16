@@ -1,7 +1,7 @@
 import Meal from './Meal.jsx';
 import { useState, useEffect } from 'react';
 
-export default function Meals()
+export default function Meals({...props})
 {
     const [isLoading, setLoading] = useState(true);
     const [meals, setMeals] = useState([]);
@@ -31,7 +31,7 @@ export default function Meals()
         <ol id="meals">
             {isLoading && <p>Please wait while we are fetching the data...</p>}
             {(!isLoading && !errors) && meals.map((meal) => {
-                return <Meal key={meal.id} name={meal.name} price={meal.price} description={meal.description} image={meal.image}/>
+                return <Meal key={meal.id} name={meal.name} price={meal.price} description={meal.description} image={meal.image} {...props}/>
             })}
             {errors && (
                 <div className="error">
