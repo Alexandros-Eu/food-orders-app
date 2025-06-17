@@ -14,7 +14,7 @@ export default function Meal({name, price, description, image, onAdd})
                     <h3>{name}</h3>
                     <span className="meal-item-price">${price}</span>
                     <p className="meal-item-description">{description}</p>
-                    <button className="button meal-item-actions" onClick={onAdd}>Add to Cart</button>
+                    <button className="button meal-item-actions" onClick={() => onAdd(name, price)}>Add to Cart</button>
                 </form>
             </article>
         </li>
