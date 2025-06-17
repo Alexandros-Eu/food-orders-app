@@ -58,7 +58,7 @@ function App() {
   return (
     <>
       <Header cartCounter={cartCounter}/>
-      <Cart/>
+      <Cart items={cartItems}/>
       <Meals onAdd={handleAddMeal}/>
     </>
   );

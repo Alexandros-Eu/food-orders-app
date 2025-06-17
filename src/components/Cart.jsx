@@ -1,61 +1,48 @@
-export default function Cart()
+export default function Cart({items})
 {
+    function total()
+    {
+        let total = 0;
+
+        items.forEach(item => {
+            total += item.price * item.quantity;
+        })
+
+        if(!total)
+        {
+            return undefined;
+        }
+
+        return total;
+
+    }
+
     return (
-        <dialog className="cart modal">
+        <dialog className="cart modal" open>
             <h2>Your Cart</h2>
             <ul>
-                <li className="cart-item">
-                    <p>
-                        Example Item 1
-                    </p>
-                    <div className="modal-actions cart-items-action">
-                        <span className="cart-item-actions">
-                            <button>-</button>
-                        </span>
+                {items.map(item => {
+                    return (
+                        <li className="cart-item" key={item.id}>
+                            <p>
+                                {item.name} - {item.quantity} X ${item.price * item.quantity}
+                            </p>
+                            <div className="modal-actions cart-items-action">
+                                <span className="cart-item-actions">
+                                    <button>-</button>
+                                </span>
 
-                        <span>1</span>
+                                <span>{item.quantity}</span>
 
-                        <span className="cart-item-actions">
-                            <button>+</button>
-                        </span>
-                    </div>
-                </li>
+                                <span className="cart-item-actions">
+                                    <button>+</button>
+                                </span>
+                            </div>
+                        </li>
+                    )
+                })}
 
-                <li className="cart-item">
-                    <p>
-                        Example Item 2
-                    </p>
-                    <div className="modal-actions cart-items-action">
-                        <span className="cart-item-actions">
-                            <button>-</button>
-                        </span>
-
-                        <span>1</span>
-
-                        <span className="cart-item-actions">
-                            <button>+</button>
-                        </span>
-                    </div>
-                </li>
-
-                <li className="cart-item">
-                    <p>
-                        Example Item 3
-                    </p>
-                    <div className="modal-actions cart-items-action">
-                        <span className="cart-item-actions">
-                            <button>-</button>
-                        </span>
-
-                        <span>1</span>
-
-                        <span className="cart-item-actions">
-                            <button>+</button>
-                        </span>
-                    </div>
-                </li>
-
-                <span className="cart-total modal-actions">$59.99</span>
+                <span className="cart-total modal-actions">${total()}</span>
 
                 <div className="modal-actions">
                     <button className="text-button">Close</button>
