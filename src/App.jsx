@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 
 import Header from './components/Header.jsx';
@@ -9,6 +9,8 @@ function App() {
 
   const [cartCounter, setCartCounter] = useState(0);
   const [cartItems, setCartItems] = useState([]);
+  const [showCart, setShowCart] = useState(false);
+  const cartModal = useRef(null);
 
   function handleAddMeal(name, price)
   {
@@ -55,10 +57,20 @@ function App() {
     })
   }
 
+  function handleCartClick()
+  {
+    cartModal.current.showModal();
+  }
+
+  function handleCartClose()
+  {
+    cartModal.current.close();
+  }
+
   return (
     <>
-      <Header cartCounter={cartCounter}/>
-      <Cart items={cartItems}/>
+      <Header cartCounter={cartCounter} onCart={handleCartClick}/>
+      <Cart items={cartItems} ref={cartModal} onCartClose={handleCartClose}/>
       <Meals onAdd={handleAddMeal}/>
     </>
   );

@@ -1,5 +1,8 @@
-export default function Cart({items})
+import { forwardRef } from 'react';
+
+const Cart =  forwardRef(function Cart({items, onCartClose}, ref)
 {
+
     function total()
     {
         let total = 0;
@@ -18,7 +21,7 @@ export default function Cart({items})
     }
 
     return (
-        <dialog className="cart modal" open>
+        <dialog className="cart modal" ref={ref}>
             <h2>Your Cart</h2>
             <ul>
                 {items.map(item => {
@@ -45,11 +48,13 @@ export default function Cart({items})
                 <span className="cart-total modal-actions">${total()}</span>
 
                 <div className="modal-actions">
-                    <button className="text-button">Close</button>
+                    <button className="text-button" onClick={onCartClose}>Close</button>
                     <button className="button">Go to Checkout</button>
                 </div>
 
             </ul>
         </dialog>
     )
-}
+});
+
+export default Cart;
