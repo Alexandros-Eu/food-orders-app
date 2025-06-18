@@ -1,7 +1,19 @@
-import { forwardRef } from 'react';
+import { useRef, forwardRef, useImperativeHandle } from 'react';
 
 const Cart =  forwardRef(function Cart({items, onCartClose}, ref)
 {
+    const cartDialog = useRef(ref);
+
+    useImperativeHandle(ref, () => {
+        return {
+            open() {
+                cartDialog.current.showModal();
+            },
+            close() {
+                cartDialog.current.close();
+            }
+        }
+    }, []);
 
     function total()
     {
@@ -21,7 +33,7 @@ const Cart =  forwardRef(function Cart({items, onCartClose}, ref)
     }
 
     return (
-        <dialog className="cart modal" ref={ref}>
+        <dialog className="cart modal" ref={cartDialog}>
             <h2>Your Cart</h2>
             <ul>
                 {items.map(item => {

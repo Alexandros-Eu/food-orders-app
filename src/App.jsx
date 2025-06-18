@@ -59,7 +59,7 @@ function App() {
 
   function handleCartClick()
   {
-    cartModal.current.showModal();
+    cartModal.current.open();
   }
 
   function handleCartClose()
