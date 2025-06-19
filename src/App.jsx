@@ -4,6 +4,7 @@ import { v4 as uuidv4 } from 'uuid';
 import Header from './components/Header.jsx';
 import Cart from './components/Cart.jsx';
 import Meals from './components/Meals.jsx';
+import Checkout from './components/Checkout.jsx';
 
 function App() {
 
@@ -70,6 +71,7 @@ function App() {
   return (
     <>
       <Header cartCounter={cartCounter} onCart={handleCartClick}/>
+      <Checkout/>
       <Cart items={cartItems} ref={cartModal} onCartClose={handleCartClose}/>
       <Meals onAdd={handleAddMeal}/>
     </>
