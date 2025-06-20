@@ -6,7 +6,7 @@ export default function Checkout()
     {
         const name = formData.get("name");
         const email = formData.get("email");
-        const address = formData.get("address");
+        const street = formData.get("address");
         const postalCode = formData.get("postal-code");
         const city = formData.get("city");
 
@@ -20,9 +20,9 @@ export default function Checkout()
             errors.push("You must provide a valid email address");
         }
 
-        if(!address.trim())
+        if(!street.trim())
         {
-            errors.push("You must provide an address for your order");
+            errors.push("You must provide a street address for your order");
         }
 
         if(!postalCode.trim())
@@ -35,7 +35,26 @@ export default function Checkout()
             errors.push("A city is required for the order");
         }
 
-
+        const req = await fetch("http://localhost:3000/orders", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                order: {
+                    customer: {
+                        name: name,
+                        email: email,
+                        street: street,
+                        "postal-code": postalCode,
+                        city: city
+                    },
+                    items: {
+                        1: "Mac & Cheese"
+                    }
+                }
+            })
+        })
 
     }
 
