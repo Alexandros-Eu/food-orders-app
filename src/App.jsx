@@ -10,8 +10,8 @@ function App() {
 
   const [cartCounter, setCartCounter] = useState(0);
   const [cartItems, setCartItems] = useState([]);
-  const [showCart, setShowCart] = useState(false);
   const cartModal = useRef(null);
+  const checkoutModal = useRef(null);
 
   function handleAddMeal(name, price)
   {
@@ -68,11 +68,17 @@ function App() {
     cartModal.current.close();
   }
 
+  function handleCartConfirm()
+  {
+    cartModal.current.close();
+    checkoutModal.current.open();
+  }
+
   return (
     <>
       <Header cartCounter={cartCounter} onCart={handleCartClick}/>
-      <Checkout/>
-      <Cart items={cartItems} ref={cartModal} onCartClose={handleCartClose}/>
+      <Cart items={cartItems} ref={cartModal} onCartClose={handleCartClose} onCartConfirm={handleCartConfirm}/>
+      <Checkout ref={checkoutModal}/>
       <Meals onAdd={handleAddMeal}/>
     </>
   );

@@ -1,7 +1,7 @@
 import { useRef, forwardRef, useImperativeHandle } from 'react';
 import { createPortal } from 'react-dom';
 
-const Cart =  forwardRef(function Cart({items, onCartClose}, ref)
+const Cart =  forwardRef(function Cart({items, onCartClose, onCartConfirm}, ref)
 {
     const cartDialog = useRef(ref);
 
@@ -62,7 +62,7 @@ const Cart =  forwardRef(function Cart({items, onCartClose}, ref)
 
                 <div className="modal-actions">
                     <button className="text-button" onClick={onCartClose}>Close</button>
-                    <button className="button">Go to Checkout</button>
+                    <button className="button" onClick={onCartConfirm}>Go to Checkout</button>
                 </div>
 
             </ul>

@@ -29,7 +29,7 @@ export default function Meals({...props})
 
     return (
         <ol id="meals">
-            {isLoading && <p>Please wait while we are fetching the data...</p>}
+            {isLoading && <p className="center">Please wait while we are fetching the data...</p>}
             {(!isLoading && !errors) && meals.map((meal) => {
                 return <Meal key={meal.id} name={meal.name} price={meal.price} description={meal.description} image={meal.image} {...props}/>
             })}

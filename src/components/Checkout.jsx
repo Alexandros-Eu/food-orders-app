@@ -1,8 +1,20 @@
-import { useActionState } from 'react';
+import { useActionState, forwardRef, useImperativeHandle, useRef } from 'react';
 
-export default function Checkout()
+const Checkout = forwardRef(function Checkout(props, ref)
 {
     const errors = [];
+    const modal = useRef(ref);
+
+    useImperativeHandle(ref, () => {
+        return {
+            open() {
+                modal.current.showModal();
+            },
+            close() {
+                modal.current.close();
+            }
+        }
+    }, [])
 
     async function onCheckoutAction(prevState, formData)
     {
@@ -84,7 +96,7 @@ export default function Checkout()
 
 
     return (
-        <dialog className="modal" open>
+        <dialog className="modal" ref={modal}>
             <form action="" noValidate>
                 <h2>Checkout</h2>
                 <p>Total amount:</p>
@@ -140,4 +152,6 @@ export default function Checkout()
             </form>
         </dialog>
     )
-}
+});
+
+export default Checkout;
