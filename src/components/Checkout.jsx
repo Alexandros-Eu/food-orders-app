@@ -1,8 +1,10 @@
+import { useActionState } from 'react';
+
 export default function Checkout()
 {
     const errors = [];
 
-    async function onCheckoutAction(formData)
+    async function onCheckoutAction(prevState, formData)
     {
         const name = formData.get("name");
         const email = formData.get("email");
@@ -35,32 +37,55 @@ export default function Checkout()
             errors.push("A city is required for the order");
         }
 
-        const req = await fetch("http://localhost:3000/orders", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                order: {
-                    customer: {
-                        name: name,
-                        email: email,
-                        street: street,
-                        "postal-code": postalCode,
-                        city: city
-                    },
-                    items: {
-                        1: "Mac & Cheese"
-                    }
-                }
-            })
-        })
+        if(errors)
+        {
+            return { errors: errors}
+        }
 
+        let res;
+
+        try {
+            res = await fetch("http://localhost:3000/orders", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    order: {
+                        customer: {
+                            name: name,
+                            email: email,
+                            street: street,
+                            "postal-code": postalCode,
+                            city: city
+                        },
+                        items: {
+                            1: "Mac & Cheese"
+                        }
+                    }
+                })
+            })
+        }
+        catch(e)
+        {
+            console.log(e);
+        }
+
+        if(!res.ok)
+        {
+            throw new Error("Oops, something went wrong while trying to send data to the backend!");
+        }
+
+        return { errors: null};
+        
     }
+
+    const [checkoutState, checkoutAction, isCheckoutPending] = useActionState(onCheckoutAction, {errors: null})
+
 
     return (
         <dialog className="modal" open>
-            <form action="">
+            <form action="" noValidate>
                 <h2>Checkout</h2>
                 <p>Total amount:</p>
 
@@ -99,8 +124,19 @@ export default function Checkout()
 
                 <div className="modal-actions">
                     <button className="text-button">Close</button>
-                    <button formAction={onCheckoutAction} className="button">Submit Order</button>
+                    <button formAction={checkoutAction} className="button">Submit Order</button>
                 </div>
+
+                {checkoutState.errors && (
+                    <div className="error">
+                        <h2>Error</h2>
+
+                        {checkoutState.errors.map((error, index) => {
+                            return <p key={index}>{error}</p>
+                        })}
+
+                    </div>
+                )}
             </form>
         </dialog>
     )
