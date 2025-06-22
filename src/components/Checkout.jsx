@@ -1,7 +1,7 @@
 import { useActionState, forwardRef, useImperativeHandle, useRef } from 'react';
 import { createPortal } from 'react-dom';
 
-const Checkout = forwardRef(function Checkout({items}, ref)
+const Checkout = forwardRef(function Checkout({items, onCheckoutClose}, ref)
 {
     const errors = [];
     const modal = useRef(ref);
@@ -136,7 +136,7 @@ const Checkout = forwardRef(function Checkout({items}, ref)
    
 
                 <div className="modal-actions">
-                    <button className="text-button">Close</button>
+                    <button type="button" className="text-button" name="close-checkout" onClick={onCheckoutClose}>Close</button>
                     <button formAction={checkoutAction} className="button">Submit Order</button>
                 </div>
 

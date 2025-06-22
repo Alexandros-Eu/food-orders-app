@@ -63,9 +63,18 @@ function App() {
     cartModal.current.open();
   }
 
-  function handleCartClose()
+  function handleModalClose(e)
   {
-    cartModal.current.close();
+    if(e.target.name === "close-cart")
+    {
+      cartModal.current.close();
+    }
+
+    if(e.target.name === "close-checkout")
+    {
+      checkoutModal.current.close();
+    }
+
   }
 
   function handleCartConfirm()
@@ -77,8 +86,8 @@ function App() {
   return (
     <>
       <Header cartCounter={cartCounter} onCart={handleCartClick}/>
-      <Cart items={cartItems} ref={cartModal} onCartClose={handleCartClose} onCartConfirm={handleCartConfirm}/>
-      <Checkout items={cartItems} ref={checkoutModal}/>
+      <Cart items={cartItems} onCartClose={handleModalClose} onCartConfirm={handleCartConfirm} ref={cartModal}/>
+      <Checkout items={cartItems} onCheckoutClose={handleModalClose} ref={checkoutModal}/>
       <Meals onAdd={handleAddMeal}/>
     </>
   );
