@@ -1,4 +1,5 @@
 import { useActionState, forwardRef, useImperativeHandle, useRef } from 'react';
+import { createPortal } from 'react-dom';
 
 const Checkout = forwardRef(function Checkout(props, ref)
 {
@@ -96,7 +97,7 @@ const Checkout = forwardRef(function Checkout(props, ref)
 
 
     return (
-        <dialog className="modal" ref={modal}>
+        createPortal(<dialog className="modal" ref={modal}>
             <form action="" noValidate>
                 <h2>Checkout</h2>
                 <p>Total amount:</p>
@@ -150,7 +151,8 @@ const Checkout = forwardRef(function Checkout(props, ref)
                     </div>
                 )}
             </form>
-        </dialog>
+        </dialog>,
+        document.getElementById("modal"))
     )
 });
 
