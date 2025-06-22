@@ -1,7 +1,7 @@
 import { useActionState, forwardRef, useImperativeHandle, useRef } from 'react';
 import { createPortal } from 'react-dom';
 
-const Checkout = forwardRef(function Checkout(props, ref)
+const Checkout = forwardRef(function Checkout({items}, ref)
 {
     const errors = [];
     const modal = useRef(ref);
@@ -50,7 +50,9 @@ const Checkout = forwardRef(function Checkout(props, ref)
             errors.push("A city is required for the order");
         }
 
-        if(errors)
+
+
+        if(errors.length > 0)
         {
             return { errors: errors}
         }
@@ -72,9 +74,7 @@ const Checkout = forwardRef(function Checkout(props, ref)
                             "postal-code": postalCode,
                             city: city
                         },
-                        items: {
-                            1: "Mac & Cheese"
-                        }
+                        items
                     }
                 })
             })
@@ -98,38 +98,38 @@ const Checkout = forwardRef(function Checkout(props, ref)
 
     return (
         createPortal(<dialog className="modal" ref={modal}>
-            <form action="" noValidate>
+            <form>
                 <h2>Checkout</h2>
                 <p>Total amount:</p>
 
                 <div className="control">
                     <label htmlFor="name">Full Name</label>
-                    <input type="text" name="name" id="name"/>
+                    <input type="text" name="name" id="name" required/>
                 </div>
 
 
                 <div className="control">
                     <label htmlFor="email">E-mail Address</label>
-                    <input type="email" name="email" id="email"/>
+                    <input type="email" name="email" id="email" required/>
                 </div>
 
 
                 <div className="control">   
                     <label htmlFor="address">Street</label>
-                    <input type="text" name="address" id="address"/>
+                    <input type="text" name="address" id="address" required/>
                 </div>
 
 
                 <div className="control-row">
                     <div className="control">
                         <label htmlFor="postal-code">Postal Code</label>
-                        <input type="text" name="postal-code" id="postal-code"/>
+                        <input type="text" name="postal-code" id="postal-code" required/>
                     </div>
 
 
                     <div className="control">
                         <label htmlFor="city">City</label>
-                        <input type="text" name="city" id="city"/>
+                        <input type="text" name="city" id="city" required/>
                     </div>
 
                 </div>

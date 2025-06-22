@@ -78,7 +78,7 @@ function App() {
     <>
       <Header cartCounter={cartCounter} onCart={handleCartClick}/>
       <Cart items={cartItems} ref={cartModal} onCartClose={handleCartClose} onCartConfirm={handleCartConfirm}/>
-      <Checkout ref={checkoutModal}/>
+      <Checkout items={cartItems} ref={checkoutModal}/>
       <Meals onAdd={handleAddMeal}/>
     </>
   );
