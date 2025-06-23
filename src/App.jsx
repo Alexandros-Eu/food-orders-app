@@ -87,6 +87,21 @@ function App() {
     })
   }
 
+  function handleItemAddition(id)
+  {
+    setCartItems(oldCartItems => {
+      return oldCartItems.map(item => {
+        if(item.id === id)
+        {
+          return {
+            ...item,
+            quantity: item.quantity + 1
+          }
+        }
+      })
+    })
+  }
+
   function handleCartClick()
   {
     cartModal.current.open();
@@ -115,7 +130,7 @@ function App() {
   return (
     <>
       <Header cartCounter={cartCounter} onCart={handleCartClick}/>
-      <Cart items={cartItems} onCartClose={handleModalClose} onCartConfirm={handleCartConfirm} onItemRemove={handleItemRemoval} ref={cartModal}/>
+      <Cart items={cartItems} onCartClose={handleModalClose} onCartConfirm={handleCartConfirm} onItemRemove={handleItemRemoval} onItemAdd={handleItemAddition} ref={cartModal}/>
       <Checkout items={cartItems} onCheckoutClose={handleModalClose} ref={checkoutModal}/>
       <Meals onAdd={handleAddMeal}/>
     </>
