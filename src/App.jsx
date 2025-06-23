@@ -58,6 +58,35 @@ function App() {
     })
   }
 
+  function handleItemRemoval(id)
+  {
+
+    setCartItems(oldCartItems => {
+      const itemForRemoval = oldCartItems.find((item) => {
+        if(item.id === id && item.quantity === 1)
+        {
+          return true;
+        }
+
+        return false;
+      })
+
+      if(itemForRemoval)
+      {
+        return oldCartItems.filter((item) => item.id !== id)
+      }
+
+      return oldCartItems.map((item) => {
+        if (item.id === id && item.quantity > 1) {
+          return {
+            ...item,
+            quantity: item.quantity - 1
+          }
+        }
+      })
+    })
+  }
+
   function handleCartClick()
   {
     cartModal.current.open();
@@ -86,7 +115,7 @@ function App() {
   return (
     <>
       <Header cartCounter={cartCounter} onCart={handleCartClick}/>
-      <Cart items={cartItems} onCartClose={handleModalClose} onCartConfirm={handleCartConfirm} ref={cartModal}/>
+      <Cart items={cartItems} onCartClose={handleModalClose} onCartConfirm={handleCartConfirm} onItemRemove={handleItemRemoval} ref={cartModal}/>
       <Checkout items={cartItems} onCheckoutClose={handleModalClose} ref={checkoutModal}/>
       <Meals onAdd={handleAddMeal}/>
     </>
