@@ -5,6 +5,7 @@ import Header from './components/Header.jsx';
 import Cart from './components/Cart.jsx';
 import Meals from './components/Meals.jsx';
 import Checkout from './components/Checkout.jsx';
+import Success from './components/Success.jsx';
 
 function App() {
 
@@ -12,6 +13,7 @@ function App() {
   const [cartItems, setCartItems] = useState([]);
   const cartModal = useRef(null);
   const checkoutModal = useRef(null);
+  const successModal = useRef(null);
 
   function handleAddMeal(name, price)
   {
@@ -119,18 +121,20 @@ function App() {
     cartModal.current.open();
   }
 
-  function handleModalClose(e)
+  function handleModalClose(id)
   {
-    if(e.target.name === "close-cart")
+    switch(id)
     {
-      cartModal.current.close();
+      case "close-cart":
+        cartModal.current.close();
+        break;
+      case "close-checkout":
+        checkoutModal.current.close();
+        break;
+      case "close-success":
+        checkoutModal.current.close();
+        successModal.current.open();
     }
-
-    if(e.target.name === "close-checkout")
-    {
-      checkoutModal.current.close();
-    }
-
   }
 
   function handleCartConfirm()
@@ -144,6 +148,7 @@ function App() {
       <Header cartCounter={cartCounter} onCart={handleCartClick}/>
       <Cart items={cartItems} onCartClose={handleModalClose} onCartConfirm={handleCartConfirm} onItemRemove={handleItemRemoval} onItemAdd={handleItemAddition} ref={cartModal}/>
       <Checkout items={cartItems} onCheckoutClose={handleModalClose} ref={checkoutModal}/>
+      <Success ref={successModal}/>
       <Meals onAdd={handleAddMeal}/>
     </>
   );

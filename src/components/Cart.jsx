@@ -61,7 +61,7 @@ const Cart =  forwardRef(function Cart({items, onCartClose, onCartConfirm, onIte
                 <span className="cart-total modal-actions">${total()}</span>
 
                 <div className="modal-actions">
-                    <button type="button" className="text-button" name="close-cart" onClick={onCartClose}>Close</button>
+                    <button type="button" className="text-button" onClick={() => onCartClose("close-cart")}>Close</button>
                     <button className="button" onClick={onCartConfirm}>Go to Checkout</button>
                 </div>
 

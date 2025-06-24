@@ -89,6 +89,7 @@ const Checkout = forwardRef(function Checkout({items, onCheckoutClose}, ref)
             throw new Error("Oops, something went wrong while trying to send data to the backend!");
         }
 
+        onCheckoutClose("close-success");
         return { errors: null};
         
     }
@@ -136,7 +137,7 @@ const Checkout = forwardRef(function Checkout({items, onCheckoutClose}, ref)
    
 
                 <div className="modal-actions">
-                    <button type="button" className="text-button" name="close-checkout" onClick={onCheckoutClose}>Close</button>
+                    <button type="button" className="text-button" onClick={() => onCheckoutClose("close-checkout")}>Close</button>
                     <button formAction={checkoutAction} className="button">Submit Order</button>
                 </div>
 
