@@ -60,7 +60,6 @@ function App() {
 
   function handleItemRemoval(id)
   {
-
     setCartItems(oldCartItems => {
       const itemForRemoval = oldCartItems.find((item) => {
         if(item.id === id && item.quantity === 1)
@@ -77,7 +76,7 @@ function App() {
       }
 
       return oldCartItems.map((item) => {
-        if (item.id === id && item.quantity > 1) {
+        if(item.id === id && item.quantity > 1) {
           return {
             ...item,
             quantity: item.quantity - 1
@@ -89,6 +88,8 @@ function App() {
         }
       })
     })
+
+    setCartCounter(oldCounter => oldCounter - 1);
   }
 
   function handleItemAddition(id)
@@ -108,6 +109,9 @@ function App() {
         }
       })
     })
+
+
+    setCartCounter(oldCounter => oldCounter + 1);
   }
 
   function handleCartClick()
