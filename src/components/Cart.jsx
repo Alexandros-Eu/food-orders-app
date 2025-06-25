@@ -1,11 +1,14 @@
+import { useContext } from 'react';
+import AppContext from '../state/AppContext.jsx';
 import { useRef, forwardRef, useImperativeHandle } from 'react';
 import { createPortal } from 'react-dom';
 
-const Cart =  forwardRef(function Cart({items, onCartClose, onCartConfirm, onItemRemove, onItemAdd}, ref)
+const Cart =  forwardRef(function Cart(props, ref)
 {
-    const cartDialog = useRef(ref);
+    const { cartItems: items, handleModalClose: onCartClose, handleCartConfirm: onCartConfirm, handleItemRemoval: onItemRemove, handleItemAddition: onItemAdd, cartModal} = useContext(AppContext);
+    const cartDialog = useRef(cartModal);
 
-    useImperativeHandle(ref, () => {
+    useImperativeHandle(cartModal, () => {
         return {
             open() {
                 cartDialog.current.showModal();

@@ -1,4 +1,5 @@
 import { useState, useRef } from 'react';
+import AppProvider from './state/AppContext.jsx';
 
 
 import Header from './components/Header.jsx';
@@ -145,13 +146,13 @@ function App() {
 
   return (
     <>
-      <AppContext>
+      <AppProvider>
         <Header cartCounter={cartCounter} onCart={handleCartClick}/>
         <Cart items={cartItems} onCartClose={handleModalClose} onCartConfirm={handleCartConfirm} onItemRemove={handleItemRemoval} onItemAdd={handleItemAddition} ref={cartModal}/>
         <Checkout items={cartItems} onCheckoutClose={handleModalClose} ref={checkoutModal}/>
         <Success ref={successModal}/>
         <Meals/>
-      </AppContext>
+      </AppProvider>
     </>
   );
 }

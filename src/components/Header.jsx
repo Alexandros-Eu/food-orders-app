@@ -1,9 +1,9 @@
 import { useContext } from 'react';
-import { AppContext } from '../state/AppContext.jsx';
+import AppProvider from '../state/AppContext.jsx';
 
-export default function Header({cartCounter, onCart})
+export default function Header()
 {
-    const cartCounter = useContext(AppContext)
+    const { cartCounter, handleCartClick: onCart }  = useContext(AppProvider)
 
     return (
         <header id="main-header">
