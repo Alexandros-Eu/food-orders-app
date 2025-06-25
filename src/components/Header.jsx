@@ -1,7 +1,10 @@
-
+import { useContext } from 'react';
+import { AppContext } from '../state/AppContext.jsx';
 
 export default function Header({cartCounter, onCart})
 {
+    const cartCounter = useContext(AppContext)
+
     return (
         <header id="main-header">
             <div id="title">

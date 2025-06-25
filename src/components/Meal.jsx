@@ -1,5 +1,10 @@
-export default function Meal({name, price, description, image, onAdd})
+import { useContext } from 'react';
+import { MealContext } from '../state/AppContext.jsx';
+
+export default function Meal({name, price, description, image})
 {
+    const onAdd = useContext(MealContext);
+
     function onSubmit(e)
     {
         e.preventDefault();
