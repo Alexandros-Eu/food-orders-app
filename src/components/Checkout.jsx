@@ -100,7 +100,7 @@ const Checkout = forwardRef(function Checkout()
 
 
     return (
-        createPortal(<dialog className="modal" ref={modal}>
+        createPortal(<dialog className="modal" ref={modal} disabled={isCheckoutPending}>
             <form>
                 <h2>Checkout</h2>
                 <p>Total amount:</p>
@@ -139,6 +139,7 @@ const Checkout = forwardRef(function Checkout()
    
 
                 <div className="modal-actions">
+                    {isCheckoutPending && <p style="color: red;">Please wait while we process the form</p>}
                     <button type="button" className="text-button" onClick={() => onCheckoutClose("close-checkout")}>Close</button>
                     <button formAction={checkoutAction} className="button">Submit Order</button>
                 </div>
