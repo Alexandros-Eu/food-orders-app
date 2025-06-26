@@ -1,9 +1,9 @@
 import { useContext } from 'react';
-import AppProvider from '../state/AppContext.jsx';
+import { AppContext } from '../state/AppContext.jsx';
 
 export default function Meal({name, price, description, image})
 {
-    const { handleAddMeal: onAdd} = useContext(AppProvider);
+    const { handleAddMeal: onAdd} = useContext(AppContext);
 
     function onSubmit(e)
     {

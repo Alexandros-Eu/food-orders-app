@@ -1,4 +1,7 @@
-import { useState } from 'react';
+import { useState, useRef, createContext } from 'react';
+import { v4 as uuidv4 } from 'uuid';
+
+export const AppContext = createContext();
 
 export default function AppProvider({children})
 {
@@ -157,6 +160,5 @@ export default function AppProvider({children})
       {children}
     </AppContext.Provider>
   )
-
 
 }

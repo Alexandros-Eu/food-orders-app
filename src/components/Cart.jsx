@@ -1,9 +1,9 @@
 import { useContext } from 'react';
-import AppContext from '../state/AppContext.jsx';
+import { AppContext } from '../state/AppContext.jsx';
 import { useRef, forwardRef, useImperativeHandle } from 'react';
 import { createPortal } from 'react-dom';
 
-const Cart =  forwardRef(function Cart(props, ref)
+const Cart =  forwardRef(function Cart()
 {
     const { cartItems: items, handleModalClose: onCartClose, handleCartConfirm: onCartConfirm, handleItemRemoval: onItemRemove, handleItemAddition: onItemAdd, cartModal} = useContext(AppContext);
     const cartDialog = useRef(cartModal);

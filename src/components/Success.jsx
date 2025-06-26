@@ -1,11 +1,13 @@
-import { useRef, forwardRef, useImperativeHandle } from 'react';
+import { useRef, forwardRef, useImperativeHandle, useContext } from 'react';
+import { AppContext } from '../state/AppContext.jsx';
 import { createPortal } from 'react-dom';
 
-const Success = forwardRef(function Success(props, ref)
+const Success = forwardRef(function Success()
 {
-    const modal = useRef(null);
+    const { successModal } = useContext(AppContext);
+    const modal = useRef(successModal);
 
-    useImperativeHandle(ref, () => {
+    useImperativeHandle(successModal, () => {
         return {
             open() {
                 modal.current.showModal();

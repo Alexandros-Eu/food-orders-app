@@ -1,12 +1,14 @@
-import { useActionState, forwardRef, useImperativeHandle, useRef } from 'react';
+import { useActionState, forwardRef, useImperativeHandle, useRef, useContext } from 'react';
+import { AppContext } from '../state/AppContext.jsx';
 import { createPortal } from 'react-dom';
 
-const Checkout = forwardRef(function Checkout({items, onCheckoutClose}, ref)
+const Checkout = forwardRef(function Checkout()
 {
     const errors = [];
-    const modal = useRef(ref);
+    const { cartItems: items, handleModalClose: onCheckoutClose, checkoutModal} = useContext(AppContext);
+    const modal = useRef(checkoutModal);
 
-    useImperativeHandle(ref, () => {
+    useImperativeHandle(checkoutModal, () => {
         return {
             open() {
                 modal.current.showModal();
