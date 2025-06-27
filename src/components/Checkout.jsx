@@ -91,7 +91,7 @@ const Checkout = forwardRef(function Checkout()
             throw new Error("Oops, something went wrong while trying to send data to the backend!");
         }
 
-        onCheckoutClose("close-success");
+        onCheckoutClose("open-success");
         return { errors: null};
         
     }

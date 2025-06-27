@@ -120,9 +120,12 @@ export default function AppProvider({children})
       case "close-checkout":
         checkoutModal.current.close();
         break;
-      case "close-success":
+      case "open-success":
         checkoutModal.current.close();
         successModal.current.open();
+        break;
+      case "close-success":
+        successModal.current.close();
     }
   }
 
