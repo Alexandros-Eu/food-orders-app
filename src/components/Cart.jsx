@@ -3,6 +3,13 @@ import { AppContext } from '../state/AppContext.jsx';
 import { useRef, forwardRef, useImperativeHandle } from 'react';
 import { createPortal } from 'react-dom';
 
+/**
+ * A Cart component modal that manages the items on the cart
+ * Utilizes refs to handle the open and closing of the modal (useRef, forwardRef, useImperativeHandle)
+ * Uses createPortal to render the modal in it's own DOM node
+ * Uses AppContext to manage the state of the cart items and the fn(s) required to handle the modal
+ * Has a local total fn that calculates the total price for the items of the cart
+ */
 const Cart =  forwardRef(function Cart()
 {
     const { cartItems: items, handleModalClose: onCartClose, handleCartConfirm: onCartConfirm, handleItemRemoval: onItemRemove, handleItemAddition: onItemAdd, cartModal} = useContext(AppContext);
