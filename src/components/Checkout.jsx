@@ -2,6 +2,14 @@ import { useActionState, forwardRef, useImperativeHandle, useRef, useContext } f
 import { AppContext } from '../state/AppContext.jsx';
 import { createPortal } from 'react-dom';
 
+/**
+ * A Checkout component modal that manages the form in order to checkout
+ * Utilizes refs to handle the open and closing of the modal (useRef, forwardRef, useImperativeHandle)
+ * Uses createPortal to render the modal in it's own DOM node
+ * Uses AppContext to access the fn(s) required to handle the modal
+ * The form handles validation and error handling through use useActionState hook
+ * If data is correct it's sent to be stored in the backend 
+ */
 const Checkout = forwardRef(function Checkout()
 {
     const errors = [];
@@ -19,6 +27,7 @@ const Checkout = forwardRef(function Checkout()
         }
     }, [])
 
+    // Handles form submission: validates inputs, sends order, manages errors 
     async function onCheckoutAction(prevState, formData)
     {
         const name = formData.get("name");
@@ -27,6 +36,7 @@ const Checkout = forwardRef(function Checkout()
         const postalCode = formData.get("postal-code");
         const city = formData.get("city");
 
+        // Validate each field and collect errors
         if(!name.trim())
         {
             errors.push("You must fill a name for your order");
@@ -62,6 +72,7 @@ const Checkout = forwardRef(function Checkout()
         let res;
 
         try {
+            // Send order data to backend API
             res = await fetch("http://localhost:3000/orders", {
                 method: "POST",
                 headers: {
@@ -96,6 +107,7 @@ const Checkout = forwardRef(function Checkout()
         
     }
 
+    // useActionState manages form state and submission status
     const [checkoutState, checkoutAction, isCheckoutPending] = useActionState(onCheckoutAction, {errors: null})
 
 

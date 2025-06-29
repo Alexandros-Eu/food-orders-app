@@ -1,6 +1,12 @@
 import Meal from './Meal.jsx';
 import { useState, useEffect } from 'react';
 
+/**
+ * Meals component
+ * Fetches a list of meals from the backend API
+ * Utilizes useEffect in order to fetch the data from the backend API
+ * Manages the state of the meals with useState along with error handling and loading management
+ */
 export default function Meals()
 {
     const [isLoading, setLoading] = useState(true);
@@ -8,7 +14,7 @@ export default function Meals()
     const [errors, setErrors] = useState("");
 
     useEffect(() => {
-
+        // Fetches the data from the backend API
         async function getMealsData()
         {
             const res = await fetch('http://localhost:3000/meals');
@@ -20,6 +26,7 @@ export default function Meals()
                 setLoading(false);
             }
 
+            // Sets the data as state in order to be managed
             setMeals(data);
             setLoading(false);
         }
