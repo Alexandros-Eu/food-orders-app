@@ -1,16 +1,23 @@
 import { useState, useRef, createContext } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 
+/**
+ * Provides global state and modal management for the food orders app.
+ * Exposes cart state, modal refs, and handler functions to all child components.
+ */
+
+
 export const AppContext = createContext();
 
 export default function AppProvider({children})
 {
-  const [cartCounter, setCartCounter] = useState(0);
-  const [cartItems, setCartItems] = useState([]);
-  const cartModal = useRef(null);
-  const checkoutModal = useRef(null);
-  const successModal = useRef(null);
+  const [cartCounter, setCartCounter] = useState(0); // Counter that keeps track the number of items in the cart
+  const [cartItems, setCartItems] = useState([]); // State that manages the items of the cart
+  const cartModal = useRef(null); // The Cart modal ref
+  const checkoutModal = useRef(null); // The Checkout modal ref
+  const successModal = useRef(null); // The Success modal ref
 
+  // A fn that handles the addition of a meal to the cart from the front page
   function handleAddMeal(name, price)
   {
     setCartCounter(oldCounter => oldCounter + 1);
@@ -55,6 +62,7 @@ export default function AppProvider({children})
     })
   }
 
+  // A fn that handles the removal of an item from the cart (quantity -1 or the item if it's only one)
   function handleItemRemoval(id)
   {
     setCartItems(oldCartItems => {
@@ -89,6 +97,7 @@ export default function AppProvider({children})
     setCartCounter(oldCounter => oldCounter - 1);
   }
 
+  // A fn that handles the addition of an item that is already in the cart
   function handleItemAddition(id)
   {
     setCartItems(oldCartItems => {
@@ -110,6 +119,7 @@ export default function AppProvider({children})
     setCartCounter(oldCounter => oldCounter + 1);
   }
 
+  // A fn that handles when the 'close' button is pressed on the modals
   function handleModalClose(id)
   {
     switch(id)
@@ -129,17 +139,20 @@ export default function AppProvider({children})
     }
   }
 
+  // A fn that handles the cart button being pressed
   function handleCartClick()
   {
     cartModal.current.open();
   }
 
+  // A fn that proceeds to the checkout
   function handleCartConfirm()
   {
     cartModal.current.close();
     checkoutModal.current.open();
   }
 
+  // The state and fn(s) that are being made available throughout the app
   const contextValue = {
     cartCounter,
     setCartCounter,
