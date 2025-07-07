@@ -22,7 +22,7 @@ export default function Checkout()
     const cartTotal = cartCtx.items.reduce((totalPrice, item) => {
         return totalPrice += item.price * item.quantity
     }, 0)
-    const {isLoading: isSending, data, error, sendRequest} = useHttp("http://localhost:3000/orders", configRequest);
+    const {isLoading: isSending, data, error, sendRequest, clearData} = useHttp("http://localhost:3000/orders", configRequest);
 
     function handleClose()
     {
@@ -33,6 +33,7 @@ export default function Checkout()
     {
         userProgressCtx.hideCheckout();
         cartCtx.clearCart();
+        clearData();
     }
 
     function handleSubmit(e)
