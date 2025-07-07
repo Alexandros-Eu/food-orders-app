@@ -10,7 +10,7 @@ export default function Meals()
         isLoading,
         data: meals,
         error
-    } = useHttp("http://localhost:3000/mealssss", configRequest, []);
+    } = useHttp("http://localhost:3000/meals", configRequest, []);
 
     if(isLoading)
     {
