@@ -10,19 +10,19 @@ import { createPortal } from 'react-dom';
  * The form handles validation and error handling through use useActionState hook
  * If data is correct it's sent to be stored in the backend 
  */
-const Checkout = forwardRef(function Checkout()
+const Checkout = forwardRef(function Checkout({onCheckoutClose}, ref)
 {
     const errors = [];
-    const { cartItems: items, handleModalClose: onCheckoutClose, checkoutModal} = useContext(AppContext);
-    const modal = useRef(checkoutModal);
+    const { cartItems: items} = useContext(AppContext);
+    const checkoutDialog = useRef(null);
 
-    useImperativeHandle(checkoutModal, () => {
+    useImperativeHandle(ref, () => {
         return {
             open() {
-                modal.current.showModal();
+                checkoutDialog.current.showModal();
             },
             close() {
-                modal.current.close();
+                checkoutDialog.current.close();
             }
         }
     }, [])
@@ -112,7 +112,7 @@ const Checkout = forwardRef(function Checkout()
 
 
     return (
-        createPortal(<dialog className="modal" ref={modal} disabled={isCheckoutPending} onClose={() => onCheckoutClose("close-checkout")}>
+        createPortal(<dialog className="modal" ref={checkoutDialog} disabled={isCheckoutPending} onClose={() => onCheckoutClose("close-checkout")}>
             <form>
                 <h2>Checkout</h2>
                 <p>Total amount:</p>

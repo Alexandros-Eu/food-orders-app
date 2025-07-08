@@ -8,12 +8,12 @@ import { createPortal } from 'react-dom';
  * Uses createPortal to render the modal in it's own DOM node
  * Uses AppContext to acess the fn and ref required to handle the modal
  */
-const Success = forwardRef(function Success()
+const Success = forwardRef(function Success({}, ref)
 {
-    const { successModal, handleModalClose: onSuccessClose } = useContext(AppContext);
-    const modal = useRef(successModal);
+    const {handleModalClose: onSuccessClose } = useContext(AppContext);
+    const successModal = useRef(null);
 
-    useImperativeHandle(successModal, () => {
+    useImperativeHandle(ref, () => {
         return {
             open() {
                 modal.current.showModal();
@@ -25,7 +25,7 @@ const Success = forwardRef(function Success()
     }, [])
 
     return (
-        createPortal(<dialog className="modal" ref={modal} onClose={() => onSuccessClose("close-success")}>
+        createPortal(<dialog className="modal" ref={successModal} onClose={() => onSuccessClose("close-success")}>
             <h2>Success!</h2>
             <p>Your order was submitted successfully!</p>
             <p>We will get back to you with more details via email within the next few minutes</p>
