@@ -1,4 +1,4 @@
-import { useContext } from 'react';
+import { useContext, useActionState } from 'react';
 import Modal from './UI/Modal.jsx';
 import Input from './UI/Input.jsx';
 import Button from './UI/Button.jsx';
@@ -22,7 +22,7 @@ export default function Checkout()
     const cartTotal = cartCtx.items.reduce((totalPrice, item) => {
         return totalPrice += item.price * item.quantity
     }, 0)
-    const {isLoading: isSending, data, error, sendRequest, clearData} = useHttp("http://localhost:3000/orders", configRequest);
+    const {data, error, sendRequest, clearData} = useHttp("http://localhost:3000/orders", configRequest);
 
     function handleClose()
     {
@@ -36,7 +36,7 @@ export default function Checkout()
         clearData();
     }
 
-    async function handleAction(fd)
+    async function checkoutAction(prevState, fd)
     {
         const customerData = Object.fromEntries(fd.entries());
 
@@ -54,6 +54,8 @@ export default function Checkout()
             <Button className="button">Sumbit Order</Button>
         </>
     )
+
+    const [formState, formAction, isSending] = useActionState(checkoutAction, null);
 
     if(isSending)
     {
@@ -76,13 +78,11 @@ export default function Checkout()
                 </p>
             </Modal>
         )
-
     }
-    
 
     return (
         <Modal className="modal" open={userProgressCtx.progress === 'checkout'} onClose={handleClose}>
-            <form action={handleAction}>
+            <form action={formAction}>
                 <h2>Checkout</h2>
                 <p>Total Amount: {currencyFormatter.format(cartTotal)}</p>
                 <Input label="Full Name" id="name" type="text"/>
