@@ -112,7 +112,7 @@ const Checkout = forwardRef(function Checkout()
 
 
     return (
-        createPortal(<dialog className="modal" ref={modal} disabled={isCheckoutPending}>
+        createPortal(<dialog className="modal" ref={modal} disabled={isCheckoutPending} onClose={() => onCheckoutClose("close-checkout")}>
             <form>
                 <h2>Checkout</h2>
                 <p>Total amount:</p>

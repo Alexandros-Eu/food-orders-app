@@ -25,7 +25,7 @@ const Success = forwardRef(function Success()
     }, [])
 
     return (
-        createPortal(<dialog className="modal" ref={modal}>
+        createPortal(<dialog className="modal" ref={modal} onClose={() => onSuccessClose("close-success")}>
             <h2>Success!</h2>
             <p>Your order was submitted successfully!</p>
             <p>We will get back to you with more details via email within the next few minutes</p>

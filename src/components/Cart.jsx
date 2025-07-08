@@ -44,7 +44,7 @@ const Cart =  forwardRef(function Cart()
     }
 
     return (
-        createPortal(<dialog className="cart modal" ref={cartDialog}>
+        createPortal(<dialog className="cart modal" ref={cartDialog} onClose={() => onCartClose("close-cart")}>
             <h2>Your Cart</h2>
             <ul>
                 {items.map(item => {
