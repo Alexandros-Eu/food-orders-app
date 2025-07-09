@@ -13,7 +13,7 @@ import { createPortal } from 'react-dom';
 const Checkout = forwardRef(function Checkout({onCheckoutClose}, ref)
 {
     const errors = [];
-    const { cartItems: items} = useContext(AppContext);
+    const { cartItems: items, clearCart} = useContext(AppContext);
     const checkoutDialog = useRef(null);
 
     useImperativeHandle(ref, () => {
@@ -102,6 +102,7 @@ const Checkout = forwardRef(function Checkout({onCheckoutClose}, ref)
             throw new Error("Oops, something went wrong while trying to send data to the backend!");
         }
 
+        clearCart();
         onCheckoutClose("open-success");
         return { errors: null};
         

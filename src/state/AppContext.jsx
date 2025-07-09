@@ -115,15 +115,20 @@ export default function AppProvider({children})
     setCartCounter(oldCounter => oldCounter + 1);
   }
 
+  function clearCart()
+  {
+    setCartCounter(0);
+    setCartItems([]);
+  }
+
   // The state and fn(s) that are being made available throughout the app
   const contextValue = {
     cartCounter,
-    setCartCounter,
     cartItems,
-    setCartItems,
     handleAddMeal,
     handleItemRemoval,
     handleItemAddition,
+    clearCart
   }
 
   return (

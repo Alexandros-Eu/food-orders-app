@@ -19,7 +19,6 @@ export default function Meal({name, price, description, image})
         e.preventDefault();
     }
 
-
     return (
         <li className="meal-item">
             <article>
