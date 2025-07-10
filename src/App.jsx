@@ -12,6 +12,7 @@ import Success from './components/Success.jsx';
  * Root component of the Food Orders App.
  * Wraps the application in AppProvider for global state management.
  * Renders the main UI components: Header, Cart, Checkout, Success, and Meals.
+ * Handles the fn(s) that handle the modals of the app
 */
 
 function App() {

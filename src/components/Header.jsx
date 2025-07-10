@@ -8,7 +8,7 @@ import { AppContext } from '../state/AppContext.jsx';
  */
 export default function Header({onCart})
 {
-    // utilizes a cart state counter to keep track of the quantity of products and a function to handle the modal
+    // Utilizes a cart state counter to keep track of the quantity of products and a function to handle the modal
     const { cartCounter }  = useContext(AppContext) 
     return (
         <header id="main-header">

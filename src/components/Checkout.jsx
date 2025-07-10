@@ -7,8 +7,9 @@ import SubmitButton from './UI/SubmitButton.jsx';
  * A Checkout component modal that manages the form in order to checkout
  * Utilizes refs to handle the open and closing of the modal (useRef, forwardRef, useImperativeHandle)
  * Uses createPortal to render the modal in it's own DOM node
- * Uses AppContext to access the fn(s) required to handle the modal
- * The form handles validation and error handling through use useActionState hook
+ * Uses AppContext to access the items of the cart and the fn to clear the cart
+ * The form handles validation and error handling through the action fn
+ * Managing the state of the inputs with two-way binding
  * If data is correct it's sent to be stored in the backend 
  */
 const Checkout = forwardRef(function Checkout({onCheckoutClose}, ref)
@@ -130,38 +131,38 @@ const Checkout = forwardRef(function Checkout({onCheckoutClose}, ref)
 
     return (
         createPortal(<dialog className="modal" ref={checkoutDialog} onClose={() => onCheckoutClose("close-checkout")}>
-            <form action={onCheckoutAction} formNoValidate>
+            <form action={onCheckoutAction}>
                 <h2>Checkout</h2>
                 <p>Total amount:</p>
 
                 <div className="control">
                     <label htmlFor="name">Full Name</label>
-                    <input type="text" name="name" id="name" noValidate value={inputs.name} onChange={(e) => handleInputChange(e, "name")}/>
+                    <input type="text" name="name" id="name" value={inputs.name} onChange={(e) => handleInputChange(e, "name")} required/>
                 </div>
 
 
                 <div className="control">
                     <label htmlFor="email">E-mail Address</label>
-                    <input type="email" name="email" id="email" noValidate value={inputs.email} onChange={(e) => handleInputChange(e, "email")}/>
+                    <input type="email" name="email" id="email" value={inputs.email} onChange={(e) => handleInputChange(e, "email")} required/>
                 </div>
 
 
                 <div className="control">   
                     <label htmlFor="address">Street</label>
-                    <input type="text" name="address" id="address" noValidate value={inputs.street} onChange={(e) => handleInputChange(e, "street")}/>
+                    <input type="text" name="address" id="address" value={inputs.street} onChange={(e) => handleInputChange(e, "street")} required/>
                 </div>
 
 
                 <div className="control-row">
                     <div className="control">
                         <label htmlFor="postal-code">Postal Code</label>
-                        <input type="text" name="postal-code" id="postal-code" noValidate value={inputs.postalCode} onChange={(e) => handleInputChange(e, "postalCode")}/>
+                        <input type="text" name="postal-code" id="postal-code" value={inputs.postalCode} onChange={(e) => handleInputChange(e, "postalCode")} required/>
                     </div>
 
 
                     <div className="control">
                         <label htmlFor="city">City</label>
-                        <input type="text" name="city" id="city" noValidate value={inputs.city} onChange={(e) => handleInputChange(e, "city")}/>
+                        <input type="text" name="city" id="city" value={inputs.city} onChange={(e) => handleInputChange(e, "city")} required/>
                     </div>
 
                 </div>
