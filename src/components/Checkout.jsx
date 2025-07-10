@@ -1,6 +1,7 @@
 import { useActionState, forwardRef, useImperativeHandle, useRef, useContext, useState } from 'react';
 import { AppContext } from '../state/AppContext.jsx';
 import { createPortal } from 'react-dom';
+import SubmitButton from './UI/SubmitButton.jsx';
 
 /**
  * A Checkout component modal that manages the form in order to checkout
@@ -13,6 +14,7 @@ import { createPortal } from 'react-dom';
 const Checkout = forwardRef(function Checkout({onCheckoutClose}, ref)
 {
     const { cartItems: items, clearCart} = useContext(AppContext);
+    const checkoutDialog = useRef(null);
     const [errors, setErrors] = useState([]);
     const [inputs, setInputs] = useState({
         name: "",
@@ -21,6 +23,17 @@ const Checkout = forwardRef(function Checkout({onCheckoutClose}, ref)
         postalCode: "",
         city: ""
     })
+
+    useImperativeHandle(ref, () => {
+    return {
+        open() {
+            checkoutDialog.current.showModal();
+        },
+        close() {
+            checkoutDialog.current.close();
+        }
+    }
+}, []);
 
     // Handles form submission: validates inputs, sends order, manages errors 
     async function onCheckoutAction()
@@ -116,7 +129,7 @@ const Checkout = forwardRef(function Checkout({onCheckoutClose}, ref)
     }
 
     return (
-        createPortal(<dialog className="modal" ref={ref} onClose={() => onCheckoutClose("close-checkout")}>
+        createPortal(<dialog className="modal" ref={checkoutDialog} onClose={() => onCheckoutClose("close-checkout")}>
             <form action={onCheckoutAction} formNoValidate>
                 <h2>Checkout</h2>
                 <p>Total amount:</p>
@@ -157,7 +170,7 @@ const Checkout = forwardRef(function Checkout({onCheckoutClose}, ref)
                 <div className="modal-actions">
                     {/* {isCheckoutPending && <p style="color: red;">Please wait while we process the form</p>} */}
                     <button type="button" className="text-button" onClick={() => onCheckoutClose("close-checkout")}>Close</button>
-                    <button type="submit" className="button">Submit Order</button>
+                    <SubmitButton type="submit" className="button" msg="Submit Order"/>
                 </div>
 
                 {errors.length > 0 && (
