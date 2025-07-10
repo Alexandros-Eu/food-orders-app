@@ -168,7 +168,6 @@ const Checkout = forwardRef(function Checkout({onCheckoutClose}, ref)
    
 
                 <div className="modal-actions">
-                    {/* {isCheckoutPending && <p style="color: red;">Please wait while we process the form</p>} */}
                     <button type="button" className="text-button" onClick={() => onCheckoutClose("close-checkout")}>Close</button>
                     <SubmitButton type="submit" className="button" msg="Submit Order"/>
                 </div>
