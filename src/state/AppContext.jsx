@@ -1,4 +1,4 @@
-import { useState, useRef, createContext } from 'react';
+import { useState, createContext } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 
 /**
@@ -6,16 +6,12 @@ import { v4 as uuidv4 } from 'uuid';
  * Exposes cart state, modal refs, and handler functions to all child components.
  */
 
-
 export const AppContext = createContext();
 
 export default function AppProvider({children})
 {
   const [cartCounter, setCartCounter] = useState(0); // Counter that keeps track the number of items in the cart
   const [cartItems, setCartItems] = useState([]); // State that manages the items of the cart
-  const cartModal = useRef(null); // The Cart modal ref
-  const checkoutModal = useRef(null); // The Checkout modal ref
-  const successModal = useRef(null); // The Success modal ref
 
   // A fn that handles the addition of a meal to the cart from the front page
   function handleAddMeal(name, price)
@@ -119,57 +115,21 @@ export default function AppProvider({children})
     setCartCounter(oldCounter => oldCounter + 1);
   }
 
-  // A fn that handles when the 'close' button is pressed on the modals
-  function handleModalClose(id)
+  function clearCart()
   {
-    switch(id)
-    {
-      case "close-cart":
-        cartModal.current.close();
-        break;
-      case "close-checkout":
-        checkoutModal.current.close();
-        break;
-      case "open-success":
-        checkoutModal.current.close();
-        successModal.current.open();
-        break;
-      case "close-success":
-        successModal.current.close();
-    }
-  }
-
-  // A fn that handles the cart button being pressed
-  function handleCartClick()
-  {
-    cartModal.current.open();
-  }
-
-  // A fn that proceeds to the checkout
-  function handleCartConfirm()
-  {
-    cartModal.current.close();
-    checkoutModal.current.open();
+    setCartCounter(0);
+    setCartItems([]);
   }
 
   // The state and fn(s) that are being made available throughout the app
   const contextValue = {
     cartCounter,
-    setCartCounter,
     cartItems,
-    setCartItems,
-    cartModal,
-    checkoutModal,
-    successModal,
     handleAddMeal,
     handleItemRemoval,
     handleItemAddition,
-    handleCartClick,
-    handleModalClose,
-    handleCartConfirm
+    clearCart
   }
-
-
 
   return (
     <AppContext.Provider value={contextValue}>

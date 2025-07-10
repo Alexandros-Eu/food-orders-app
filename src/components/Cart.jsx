@@ -10,12 +10,12 @@ import { createPortal } from 'react-dom';
  * Uses AppContext to manage the state of the cart items and the fn(s) required to handle the modal
  * Has a local total fn that calculates the total price for the items of the cart
  */
-const Cart =  forwardRef(function Cart()
+const Cart =  forwardRef(function Cart({onCartClose, onCartConfirm}, ref)
 {
-    const { cartItems: items, handleModalClose: onCartClose, handleCartConfirm: onCartConfirm, handleItemRemoval: onItemRemove, handleItemAddition: onItemAdd, cartModal} = useContext(AppContext);
-    const cartDialog = useRef(cartModal);
+    const { cartItems: items, handleItemRemoval: onItemRemove, handleItemAddition: onItemAdd} = useContext(AppContext);
+    const cartDialog = useRef(null);
 
-    useImperativeHandle(cartModal, () => {
+    useImperativeHandle(ref, () => {
         return {
             open() {
                 cartDialog.current.showModal();
@@ -44,7 +44,7 @@ const Cart =  forwardRef(function Cart()
     }
 
     return (
-        createPortal(<dialog className="cart modal" ref={cartDialog}>
+        createPortal(<dialog className="cart modal" ref={cartDialog} onClose={() => onCartClose("close-cart")}>
             <h2>Your Cart</h2>
             <ul>
                 {items.map(item => {

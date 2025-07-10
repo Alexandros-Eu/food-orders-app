@@ -1,31 +1,28 @@
-import { useRef, forwardRef, useImperativeHandle, useContext } from 'react';
-import { AppContext } from '../state/AppContext.jsx';
+import { useRef, forwardRef, useImperativeHandle } from 'react';
 import { createPortal } from 'react-dom';
 
 /**
  * A Success component modal that flashes information about the success of the checkout
  * Utilizes refs to handle the open and closing of the modal (useRef, forwardRef, useImperativeHandle)
  * Uses createPortal to render the modal in it's own DOM node
- * Uses AppContext to acess the fn and ref required to handle the modal
  */
-const Success = forwardRef(function Success()
+const Success = forwardRef(function Success({onSuccessClose}, ref)
 {
-    const { successModal, handleModalClose: onSuccessClose } = useContext(AppContext);
-    const modal = useRef(successModal);
+    const successDialog = useRef(null);
 
-    useImperativeHandle(successModal, () => {
+    useImperativeHandle(ref, () => {
         return {
             open() {
-                modal.current.showModal();
+                successDialog.current.showModal();
             },
             close() {
-                modal.current.close();
+                successDialog.current.close();
             }
         }
     }, [])
 
     return (
-        createPortal(<dialog className="modal" ref={modal}>
+        createPortal(<dialog className="modal" ref={successDialog} onClose={() => onSuccessClose("close-success")}>
             <h2>Success!</h2>
             <p>Your order was submitted successfully!</p>
             <p>We will get back to you with more details via email within the next few minutes</p>
