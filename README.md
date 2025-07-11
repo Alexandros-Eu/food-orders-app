@@ -8,20 +8,16 @@ A sleek and functional single-page food ordering application built with modern R
 -   **Interactive Shopping Cart:** Add items to the cart, adjust quantities, and see the total price update in real-time.
 -   **Seamless User Experience:** Utilizes modals for the cart and checkout process, allowing users to complete their order without navigating away from the main page.
 -   **Form Handling & Submission:** A straightforward checkout form captures user details and submits the complete order to the backend.
--   **Robust State Management:** Centralized state management using React's Context API and `useReducer` hook for predictable state transitions.
 -   **Asynchronous Operations Handling:** Gracefully manages loading and error states for all API interactions, providing clear feedback to the user.
--   **Custom Hooks:** Encapsulates complex logic, like HTTP requests, into reusable custom hooks (`useHttp`).
 
 ## Core Technologies & Concepts
 
 This project is built with a focus on modern React practices:
 
 -   **React.js:** The core library for building the user interface.
--   **React Hooks:** Extensive use of `useState`, `useEffect`, `useContext`, `useReducer`, `useRef`, and `useCallback` for managing component state and side effects.
+-   **React Hooks:** Extensive use of `useState`, `useEffect`, `useContext`, `useRef` for managing component state and side effects.
 -   **React Context API:** Provides global state management to avoid prop-drilling, with dedicated contexts for:
-    -   `CartContext`: Manages all shopping cart logic (items, adding/removing, clearing).
-    -   `UserProgressContext`: Manages the UI flow, such as which modal (cart or checkout) is currently active.
--   **Custom Hooks:** A custom `useHttp` hook encapsulates the logic for sending HTTP requests, handling loading/error states, and managing response data.
+    -   `AppContext`: Manages all shopping cart logic (items, adding/removing, clearing).
 -   **Styling:** Clean and maintainable styling using standard CSS, scoped where necessary.
 
 ## Getting Started
@@ -45,7 +41,7 @@ To get a local copy up and running, follow these simple steps.
 
     -   Navigate into the `backend` directory.
     -   Install its dependencies: `npm install`
-    -   Start the server: `node app.js`
+    -   Start the server: `npm start`
 
     The backend will run on `http://localhost:3000`.
 
@@ -57,7 +53,7 @@ To get a local copy up and running, follow these simple steps.
 
 4.  **Run the React Application:**
     ```sh
-    npm start
+    npm run dev
     ```
     This will start the development server and open the application in your default browser, usually at `http://localhost:3001`.
 
@@ -76,9 +72,10 @@ food-orders-app/
 │   │   ├── Cart/         # Components related to the shopping cart
 │   │   ├── Checkout.jsx  # The checkout form component
 │   │   ├── Header.jsx    # The main application header
-│   │   └── Meals.jsx     # Component to display all available meals
-│   ├── hooks/            # Custom hooks (e.g., useHttp)
-│   ├── store/            # React Context files for state management
+│   │   ├── Meals.jsx     # Component to display the container for all available meals
+│   │   ├── Meal.jsx      # Component to display the meal and relevant information
+│   │   └── Success.jsx   # The Success component for when an order is completed
+│   ├── state/            # React Context files for state management
 │   ├── App.jsx           # Main application component where contexts and components are wired together
 │   ├── index.css         # Global styles
 │   └── index.jsx         # The entry point of the React application
@@ -86,30 +83,35 @@ food-orders-app/
 ├── package.json
 └── README.md
 ```
-
 ## How It Works
 
-### State Management
+### State Management (AppContext.jsx)
 
-The application's state is managed primarily through React's Context API, which provides a clean way to pass data through the component tree without prop-drilling.
+The application's state is managed using React's Context API (`AppContext.jsx`), which provides a way to pass data through the component tree without having to pass props down manually at every level. This approach simplifies state management for the shopping cart and related data.
 
--   **`CartContextProvider`**: This provider uses a `useReducer` hook to manage the complex state of the shopping cart. It exposes functions to add, remove, and clear items, which can be accessed by any component wrapped within it.
+Key aspects of state management include:
 
--   **`UserProgressContextProvider`**: A simpler context that manages the user's current step in the ordering process (e.g., `''`, `'cart'`, or `'checkout'`). This allows any component to trigger a change in the UI flow, such as opening the cart modal from the header.
+-   **Cart Items (`cartItems`):** Manages the list of items added to the cart, including details like name, price, and quantity.
+-   **Cart Counter (`cartCounter`):** Keeps track of the total number of items in the cart.
+-   **Functions for Cart Manipulation:**
+    -   `handleAddMeal`: Adds a new meal to the cart or increases the quantity if it already exists.
+    -   `handleItemRemoval`: Removes an item from the cart or decreases the quantity.
+    -   `handleItemAddition`: Increases the quantity of an item in the cart.
+    -   `clearCart`: Empties the cart and resets the counter.
 
 ### Data Fetching & Submission
 
-The custom `useHttp(url, config, initialData)` hook is the cornerstone of communication with the backend. It abstracts away the `fetch` API logic and provides a clean, reusable interface for handling asynchronous operations.
-
--   It manages `isLoading`, `error`, and `data` states internally.
--   The `Meals` component uses it to fetch the list of available meals when it mounts.
--   The `Checkout` component uses it to send a POST request containing the order details and cart items to the backend. It also uses the hook's state to provide feedback to the user (e.g., "Sending order data...", "Order created!", or an error message).
+Data fetching and submission are handled within specific components using the `fetch` API. For instance, the `Meals` component fetches the list of available meals, and the `Checkout` component submits the order details to the backend.
 
 ### Component Architecture
 
--   **`Modal.jsx`**: A reusable modal component built with the `<dialog>` element. It's controlled imperatively via `useRef` and `useImperativeHandle` from parent components, making it robust and easy to integrate for different use cases (cart, checkout, success message).
+-   **Modals (Cart.jsx, Checkout.jsx, Success.jsx):** Reusable modal components built using the `<dialog>` element. They are controlled imperatively via `useRef` and `useImperativeHandle` within their parent components (`App.jsx`), allowing for flexible integration and control over modal visibility for different use cases (cart management, checkout process, success confirmation).
 
--   **`App.jsx`**: The root component that brings everything together. It wraps the application in the context providers and renders the main components like `Header`, `Meals`, and the modals based on the user's progress state.
+-   **App.jsx:** The root component that orchestrates the entire application. It wraps the app with the `AppProvider` to enable global state management and renders key components such as `Header`, `Meals`, and the various modals (`Cart`, `Checkout`, `Success`) based on user interactions and state.
+
+
+
+
 
 
 
